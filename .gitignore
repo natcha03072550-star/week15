@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Build output (regenerated)
+dist/
+
+# VS Code / OS
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
