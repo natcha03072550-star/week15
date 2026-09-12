@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reika Skincare | ผลิตภัณฑ์ดูแลผิว</title>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link href="./output.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1015,44 +1016,7 @@
 
       </div>
 
-    </div> 
-  <script>
-  const container = document.getElementById('reviewScrollContainer');
-  let autoScrollTimer;
-  const scrollInterval = 3500; // เวลาต่อการเลื่อน 1 ครั้ง (3.5 วินาที)
-
-  function startAutoScroll() {
-    autoScrollTimer = setInterval(() => {
-      const card = container.querySelector('div');
-      if (!card) return;
-
-      // คำนวณระยะการเลื่อนต่อการ์ด (ความกว้างการ์ด + gap-6 ขนาด 24px)
-      const scrollAmount = card.offsetWidth + 24; 
-      const isEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 10;
-
-      if (isEnd) {
-        // เลื่อนกลับไปจุดเริ่มต้นเมื่อถึงการ์ดสุดท้าย
-        container.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        // เลื่อนไปการ์ดถัดไป
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      }
-    }, scrollInterval);
-  }
-
-  function stopAutoScroll() {
-    clearInterval(autoScrollTimer);
-  }
-
-  // เริ่มทำงาน
-  startAutoScroll();
-
-  // หยุดเลื่อนเมื่อผู้ใช้ Hover หรือกำลังทัชสกรีน
-  container.addEventListener('mouseenter', stopAutoScroll);
-  container.addEventListener('mouseleave', startAutoScroll);
-  container.addEventListener('touchstart', stopAutoScroll, { passive: true });
-  container.addEventListener('touchend', startAutoScroll, { passive: true });
-</script>
+    </div>
   </section>
   </main>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
