@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="th" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,12 +30,6 @@
       transform: translateY(-8px);
       transition: opacity 0.15s ease, transform 0.15s ease;
     }
-    .hero-slide-img {
-      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .hero-slide-img.active {
-      transform: scale(1.06);
-    }
     /* ===== Hero: text + image change together (1.5s) ===== */
     .hero-text-el {
       display: block;
@@ -46,12 +40,33 @@
       60%  { opacity: 1; transform: translateY(-3px) scale(1.03); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .hero-text-out {
-      opacity: 0;
-      transform: translateY(-10px) scale(0.97);
-    }
     .hero-text-in {
       animation: heroTextIn .55s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes textChange {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.96);
+        filter: blur(4px);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-3px) scale(1.04);
+        filter: blur(0);
+      }
+      78% {
+        transform: translateY(1px) scale(0.985);
+      }
+      90% {
+        transform: translateY(-1px) scale(1.015);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .text-change {
+      animation: textChange .35s ease forwards;
     }
     @keyframes heroImgIn {
       0%   { opacity: .3; transform: scale(1.12); }
@@ -61,48 +76,134 @@
       animation: heroImgIn .6s ease-out forwards;
       transform-origin: center;
     }
+    @keyframes heroSlideImageIn {
+      0% {
+        opacity: .35;
+        transform: scale(1.08);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .hero-slide-img {
+      animation: heroSlideImageIn .6s ease-out forwards;
+      transform-origin: center;
+    }
+    @keyframes headerReveal {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgb(255 255 255 / 0.88);
+      border-color: rgb(226 232 240 / 0.8);
+      box-shadow: 0 8px 24px rgb(15 23 42 / 0.06);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      animation: headerReveal .55s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .site-nav {
+      min-height: 4.25rem;
+    }
+    .site-logo {
+      transition: transform .3s ease, color .3s ease;
+    }
+    .site-logo:hover {
+      transform: translateY(-2px);
+      color: rgb(234 88 12);
+    }
+    .site-nav-link {
+      position: relative;
+      transition: color .25s ease, transform .25s ease;
+    }
+    .site-nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -7px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgb(249 115 22);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform .3s ease;
+    }
+    .site-nav-link:hover {
+      transform: translateY(-1px);
+    }
+    .site-nav-link:hover::after,
+    .site-nav-link:focus-visible::after {
+      transform: scaleX(1);
+    }
+    .site-action {
+      transition: color .25s ease, background-color .25s ease, transform .25s ease;
+    }
+    .site-action:hover {
+      transform: translateY(-2px);
+      background-color: rgb(255 247 237);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-text-in,
+      .text-change,
+      .hero-img-in {
+        animation-duration: 0.01ms;
+      }
+      .site-header {
+        animation: none;
+      }
+    }
 </style>
 </head>
-<body>
-<header class="bg-white border-b border-gray-200">
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased overflow-x-hidden">
+<header class="site-header border-b">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <nav class="flex justify-between items-center h-16">
+    <nav class="site-nav flex justify-between items-center">
       
       <!-- โลโก้ -->
-      <a href="#" class="text-2xl font-bold text-orange-500 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+      <a href="#" class="site-logo text-2xl font-bold text-orange-500 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
         Reika
       </a>
 
       <!-- เมนู Desktop -->
       <ul class="hidden md:flex items-center gap-8">
         <li>
-          <a href="#" class="text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">หน้าแรก</a>
+          <a href="#" class="site-nav-link text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">หน้าแรก</a>
         </li>
         <li>
-          <a href="#" class="text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">สินค้า</a>
+          <a href="#" class="site-nav-link text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">สินค้า</a>
         </li>
         <li>
-          <a href="#" class="text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">หมวดหมู่</a>
+          <a href="#" class="site-nav-link text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">หมวดหมู่</a>
         </li>
         <li>
-          <a href="#" class="text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">เกี่ยวกับเรา</a>
+          <a href="#" class="site-nav-link text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">เกี่ยวกับเรา</a>
         </li>
         <li>
-          <a href="#" class="text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">ติดต่อ</a>
+          <a href="#" class="site-nav-link text-gray-800 hover:text-orange-500 font-medium rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">ติดต่อ</a>
         </li>
       </ul>
 
       <!-- ไอคอนการกระทำ (Action Icons) -->
       <div class="flex items-center gap-2">
         <!-- ปุ่มตะกร้าสินค้า -->
-        <button type="button" aria-label="ตะกร้าสินค้า" class="text-gray-800 hover:text-orange-500 p-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+        <button type="button" aria-label="ตะกร้าสินค้า" class="site-action text-gray-800 hover:text-orange-500 p-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
           <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
           </svg>
         </button>
 
         <!-- ปุ่มเปิดเมนูบนมือถือ -->
-        <button type="button" aria-label="เปิดเมนูบนมือถือ" class="md:hidden text-gray-800 hover:text-orange-500 p-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+        <button type="button" aria-label="เปิดเมนูบนมือถือ" class="site-action md:hidden text-gray-800 hover:text-orange-500 p-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
           <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
@@ -119,16 +220,16 @@
     
     <!-- ฝั่งข้อความ (คงเดิม) -->
     <div class="flex flex-col gap-6 text-center md:text-left">
-      <div id="heroTextContent" class="hero-text-el">
-      <span id="heroBadge" class="text-orange-500 font-semibold tracking-wider text-sm uppercase">เคล็ดลับผิวสวยสุขภาพดี</span>
+      <div id="heroTextContent" class="hero-text-el" aria-live="polite">
+      <span id="heroBadge" class="text-orange-500 font-semibold tracking-wider text-sm uppercase">✨ นวัตกรรมมอยส์เจอไรเซอร์เข้มข้น</span>
       <h1 id="heroTitle" class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-        ฟื้นบำรุงผิวของคุณ<br>ด้วยครีมสูตรพรีเมียม
+        ฟื้นบำรุงผิวของคุณ ด้วยครีมสูตรพรีเมียม
       </h1>
       <p id="heroDesc" class="text-lg text-gray-600">
-        Reika คัดสรรสารสกัดจากธรรมชาติ เพื่อมอบความชุ่มชื้นและกระจ่างใสให้ผิวคุณตลอดวัน อ่อนโยนและเหมาะสำหรับทุกสภาพผิว
+        คัดสรรสารสกัดบริสุทธิ์ ล็อคความชุ่มชื้นยาวนาน 24 ชั่วโมง เผยผิวเนียนนุ่ม อิ่มน้ำ
       </p>
       </div>
-      <div class="flex flex-col sm:flex-row gap-4 mt-2 justify-center md:justify-start">
+      <div id="heroActions" class="flex flex-col sm:flex-row gap-4 mt-2 justify-center md:justify-start">
         <a href="#" class="inline-flex justify-center items-center px-8 py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">เลือกซื้อสินค้า</a>
         <a href="#" class="inline-flex justify-center items-center px-8 py-3 bg-white text-gray-800 border border-gray-300 font-medium rounded-full hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">ดูสินค้ามาใหม่</a>
       </div>
@@ -163,7 +264,7 @@
 
       <!-- จุดบอกตำแหน่ง (Dots) -->
       <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
-        <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-white transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" data-index="0" aria-label="Go to slide 1"></button>
+        <button class="carousel-dot w-7 h-2.5 rounded-full bg-white transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" data-index="0" aria-label="Go to slide 1"></button>
         <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white/80 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" data-index="1" aria-label="Go to slide 2"></button>
         <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white/80 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" data-index="2" aria-label="Go to slide 3"></button>
       </div>
@@ -180,73 +281,72 @@
     const nextBtn = document.getElementById('nextBtn');
     const dots = document.querySelectorAll('.carousel-dot');
     const carousel = document.getElementById('heroCarousel');
+    const actionsEl = document.getElementById('heroActions');
     
     let currentIndex = 0;
     const textEl = document.getElementById('heroTextContent');
     const slides = [
       {
-        badge: 'ময়শ্চুরাইজিং ক্রীম',
-        title: 'সারাদিন ত্বক সতেজ<br>ময়শ্চুরাইজিং ক্রীমে',
-        desc: 'আর্দ্রতা লক করে ত্বক মসৃণ রাখে — সব ধরনের ত্বকের জন্য উপযোগী'
+        badge: '✨ นวัตกรรมมอยส์เจอไรเซอร์เข้มข้น',
+        title: 'ฟื้นบำรุงผิวของคุณ ด้วยครีมสูตรพรีเมียม',
+        desc: 'คัดสรรสารสกัดบริสุทธิ์ ล็อคความชุ่มชื้นยาวนาน 24 ชั่วโมง เผยผิวเนียนนุ่ม อิ่มน้ำ'
       },
       {
-        badge: 'এন্টি-এজিং সেরাম',
-        title: 'উজ্জ্বল ও তরুণ ত্বক<br>এন্টি-এজিং সেরামে',
-        desc: 'ত্বক উজ্জ্বল ও কোমল রাখে, সতেজ ফিনিশ দেয় — প্রতিদিনের যত্নে'
+        badge: '💧 เซรั่มวิตามินซี & ไฮยาลูรอน',
+        title: 'บูสต์ผิวใส เปล่งออร่า ลดเลือนจุดด่างดำเร่งด่วน',
+        desc: 'สูตรเข้มข้นพิเศษ ซึมซาบล้ำลึก ไม่เหนียวเหนอะหนะ ฟื้นฟูผิวหมองคล้ำให้กลับมากระจ่างใส'
       },
       {
-        badge: 'প্রিমিয়াম বডি লোশন',
-        title: 'মসৃণ ও নরম ত্বক<br>প্রিমিয়াম বডি লোশনে',
-        desc: 'প্রিমিয়াম ফর্মুলা ত্বক নরম আর মসৃণ রাখে — আস্থার সঙ্গে ব্যবহার করুন প্রতিদিন'
+        badge: '🌿 คลีนเซอร์ & ทรีตเมนต์ธรรมชาติ',
+        title: 'ปกป้องและดูแลผิวแพ้ง่าย สูตรอ่อนโยน ไร้สารเคมี',
+        desc: 'ผ่านการทดสอบโดยแพทย์ผิวหนัง อ่อนโยน ปลอบประโลมผิว พร้อมทำความสะอาดหมดจด'
       }
     ];
     const totalSlides = slides.length;
-    const autoSlideMs = 1500; // প্রতি ১.৫ সেকেন্ডে বদল
-    let textTimer;
+    const autoSlideMs = 1500; // เปลี่ยนภาพและข้อความทุก 1.5 วินาที
     let autoSlideInterval;
     let startX = 0;
 
     // ฟังก์ชันอัปเดตการแสดงผล
+    const restartAnimation = (element, className) => {
+      element.classList.remove(className);
+      void element.offsetWidth;
+      element.classList.add(className);
+    };
+
     const updateCarousel = () => {
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
       dots.forEach((dot, index) => {
         if (index === currentIndex) {
-          dot.classList.remove('bg-white/50', 'hover:bg-white/80');
-          dot.classList.add('bg-white');
+            dot.classList.remove('bg-white/50', 'hover:bg-white/80', 'w-2.5');
+            dot.classList.add('bg-white', 'w-7');
         } else {
-          dot.classList.remove('bg-white');
-          dot.classList.add('bg-white/50', 'hover:bg-white/80');
+            dot.classList.remove('bg-white', 'w-7');
+            dot.classList.add('bg-white/50', 'hover:bg-white/80', 'w-2.5');
         }
       });
-      updateText(currentIndex);
-      pulseImage();
+      renderSlide(currentIndex);
     };
 
-    // টেক্সটকে ছবির সাথে সিঙ্কে বদলান (অ্যানিমেশনসহ)
-    const updateText = (index) => {
+    // อัปเดตภาพ ข้อความ และปุ่มในรอบเดียวกัน เพื่อให้แอนิเมชันเริ่มพร้อมกัน
+    const renderSlide = (index) => {
       const s = slides[index];
-      textEl.classList.remove('hero-text-in');
-      textEl.classList.add('hero-text-out');
-      textEl.style.transform = 'translateY(-10px) scale(0.96)';
-      textEl.style.opacity = '0';
-      clearTimeout(textTimer);
-      textTimer = setTimeout(() => {
-        textEl.querySelector('#heroBadge').innerHTML = s.badge;
-        textEl.querySelector('#heroTitle').innerHTML = s.title;
-        textEl.querySelector('#heroDesc').innerHTML = s.desc;
-        void textEl.offsetWidth; // অ্যানিমেশন পুনরায় চালু
-        textEl.classList.remove('hero-text-out');
-        textEl.classList.add('hero-text-in');
-        textEl.style.transform = '';
-        textEl.style.opacity = '';
-      }, 200);
-    };
-
-    // ছবি বদলের সময় zoom/fade অ্যানিমেশন
-    const pulseImage = () => {
-      carousel.classList.remove('hero-img-in');
-      void carousel.offsetWidth; // অ্যানিমেশন পুনরায় চালু
-      carousel.classList.add('hero-img-in');
+      const badgeEl = textEl.querySelector('#heroBadge');
+      const titleEl = textEl.querySelector('#heroTitle');
+      const descEl = textEl.querySelector('#heroDesc');
+      const actionLinks = actionsEl.querySelectorAll('a');
+      badgeEl.innerHTML = s.badge;
+      titleEl.innerHTML = s.title;
+      descEl.innerHTML = s.desc;
+      const images = track.querySelectorAll('img');
+      images.forEach((image) => {
+        image.classList.remove('hero-slide-img');
+      });
+      [badgeEl, titleEl, descEl, ...actionLinks].forEach((element) => {
+        restartAnimation(element, 'text-change');
+      });
+      restartAnimation(carousel, 'hero-img-in');
+      restartAnimation(images[index], 'hero-slide-img');
     };
 
     // ฟังก์ชันเลื่อนภาพ
@@ -259,8 +359,11 @@
       updateCarousel();
     };
 
-    // ระบบ Auto-slide (เปลี่ยนรูปอัตโนมัติทุกๆ 4 วินาที)
-    const startAutoSlide = () => { autoSlideInterval = setInterval(nextSlide, autoSlideMs); };
+    // ระบบ Auto-slide (เปลี่ยนข้อความและรูปอัตโนมัติทุกๆ 1.5 วินาที)
+    const startAutoSlide = () => {
+      stopAutoSlide();
+      autoSlideInterval = setInterval(nextSlide, autoSlideMs);
+    };
     const stopAutoSlide = () => { clearInterval(autoSlideInterval); };
 
     // ควบคุมด้วยปุ่ม
@@ -951,13 +1054,14 @@
   container.addEventListener('touchend', startAutoScroll, { passive: true });
 </script>
   </section>
+  </main>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
   AOS.init();
 </script>
 <!-- ส่วนท้ายของเว็บไซต์ (Footer) -->
-  <footer class="bg-gray-900 text-gray-300">
-    <div class="max-w-100xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+  <footer class="w-full mt-auto bg-gray-900 text-gray-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
       
       <!-- โครงสร้าง Grid หลัก -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
@@ -1031,7 +1135,7 @@
 <button 
   id="scrollToTopBtn" 
   aria-label="กลับขึ้นด้านบน"
-  class="fixed bottom-8 right-8 z-50 p-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-orange-600 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-all duration-300 opacity-0 invisible translate-y-4"
+  class="fixed bottom-6 right-4 sm:right-6 z-50 p-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-orange-600 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-all duration-300 opacity-0 invisible translate-y-4"
 >
   <!-- ไอคอนลูกศรชี้ขึ้น -->
   <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -1064,9 +1168,6 @@
     });
   });
 </script>
-<html lang="th" class="overflow-x-hidden">
-...
-<body class="bg-slate-50 text-slate-900 antialiased overflow-x-hidden">
   </footer>
   <!-- Floating Action Button (FAB) สำหรับติดต่อ -->
 <script>
