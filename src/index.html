@@ -1135,7 +1135,8 @@
 <button 
   id="scrollToTopBtn" 
   aria-label="กลับขึ้นด้านบน"
-  class="fixed bottom-6 right-4 sm:right-6 z-50 p-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-orange-600 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-all duration-300 opacity-0 invisible translate-y-4"
+  style="top: 24px"
+  class="fixed top-0 right-4 sm:right-6 z-50 p-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-orange-600 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-[top,opacity,transform,visibility] duration-300 opacity-0 invisible translate-y-4"
 >
   <!-- ไอคอนลูกศรชี้ขึ้น -->
   <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -1145,6 +1146,23 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    let scrollFrame;
+
+    const updateScrollToTopPosition = () => {
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const buttonHeight = scrollToTopBtn.offsetHeight;
+      const edgeOffset = 24;
+      const maxTop = Math.max(edgeOffset, window.innerHeight - buttonHeight - edgeOffset);
+      const scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+      const buttonTop = edgeOffset + scrollProgress * (maxTop - edgeOffset);
+
+      scrollToTopBtn.style.top = `${buttonTop}px`;
+    };
+
+    const scheduleScrollUpdate = () => {
+      if (scrollFrame) cancelAnimationFrame(scrollFrame);
+      scrollFrame = requestAnimationFrame(updateScrollToTopPosition);
+    };
 
     // 1. สั่งให้ปุ่ม "กดได้" และเลื่อนขึ้นบนสุดอย่างนุ่มนวล
     scrollToTopBtn.addEventListener('click', () => {
@@ -1156,6 +1174,7 @@
 
     // 2. สั่งให้ปุ่ม แสดง/ซ่อน อัตโนมัติเมื่อเลื่อนหน้าจอ
     window.addEventListener('scroll', () => {
+      scheduleScrollUpdate();
       if (window.scrollY > 300) {
         // เลื่อนลงมาเกิน 300px ให้แสดงปุ่ม
         scrollToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
@@ -1166,6 +1185,9 @@
         scrollToTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
       }
     });
+
+    window.addEventListener('resize', scheduleScrollUpdate);
+    updateScrollToTopPosition();
   });
 </script>
   </footer>
