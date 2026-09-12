@@ -1102,7 +1102,7 @@
     id="scrollToTopBtn"
     aria-label="กลับขึ้นด้านบน"
     style="top: 24px"
-    class="fixed top-0 right-4 sm:right-6 z-50 p-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-orange-600 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-[top,opacity,transform,visibility] duration-300 opacity-0 invisible translate-y-4"
+    class="fixed top-0 right-4 sm:right-6 z-50 p-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-orange-600 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 transition-[top,opacity,transform,visibility] duration-300"
   >
     <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
@@ -1129,23 +1129,25 @@
         scrollFrame = requestAnimationFrame(updateScrollToTopPosition);
       };
 
+      const updateScrollToTopVisibility = () => {
+        const isVisible = window.scrollY > 300;
+        scrollToTopBtn.style.opacity = isVisible ? '1' : '0';
+        scrollToTopBtn.style.visibility = isVisible ? 'visible' : 'hidden';
+        scrollToTopBtn.style.transform = isVisible ? 'translateY(0)' : 'translateY(1rem)';
+      };
+
       scrollToTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
       window.addEventListener('scroll', () => {
         scheduleScrollUpdate();
-        const isVisible = window.scrollY > 300;
-        scrollToTopBtn.classList.toggle('opacity-0', !isVisible);
-        scrollToTopBtn.classList.toggle('invisible', !isVisible);
-        scrollToTopBtn.classList.toggle('translate-y-4', !isVisible);
-        scrollToTopBtn.classList.toggle('opacity-100', isVisible);
-        scrollToTopBtn.classList.toggle('visible', isVisible);
-        scrollToTopBtn.classList.toggle('translate-y-0', isVisible);
+        updateScrollToTopVisibility();
       });
 
       window.addEventListener('resize', scheduleScrollUpdate);
       updateScrollToTopPosition();
+      updateScrollToTopVisibility();
     });
   </script>
   <!-- Floating Action Button (FAB) สำหรับติดต่อ -->
